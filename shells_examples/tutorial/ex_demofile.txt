@@ -1,0 +1,21 @@
+Hello World.
+This is vivek from Poona.
+
+I love linux.
+It is different from all other Os
+
+My brother Vikrant also loves Linux who also loves unix.
+He currently learn Linux.
+Linux is cooool.
+
+Linux is now 10 years old.
+Next year Linux will be 11 year old.
+
+Rani my sister never uses Linux 
+She only loves to play games and nothing else.
+
+Do you know?
+. (DOT) is special command of Linux.
+
+Okay! I will stop.
+On the other hand, the BSD OS is cool too, but not as cool as linux.

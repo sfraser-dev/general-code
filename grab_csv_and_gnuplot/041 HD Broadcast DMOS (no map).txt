@@ -1,0 +1,21 @@
+09/25/2012 22:50:10 - ********************************************************************************
+09/25/2012 22:50:10 - PQA Measurement Log Started: Tuesday, September 25, 2012 10:50:10 PM
+09/25/2012 22:50:10 - ********************************************************************************
+
+09/25/2012 22:50:10 - Measurement : 041 HD Broadcast DMOS (no map)
+09/25/2012 22:50:10 - Reference File : E:\rex\original\concerto_720x576_i420_99frames.yuv
+09/25/2012 22:50:10 - Test File : E:\rex\recon\concertorecon_720x576_i420_99frames.yuv
+
+09/25/2012 22:50:12 - Warning: Begin Limit Warning - Measurement value of 24.763994 at frame 6.0 exceeds warning threshold of 20.00.
+09/25/2012 22:50:17 - End Limit Warning - Frame: 31.0 Duration: 25.0.
+09/25/2012 22:50:17 - Warning: Begin Limit Warning - Measurement value of 21.264187 at frame 34.0 exceeds warning threshold of 20.00.
+09/25/2012 22:50:23 - End Limit Warning - Frame: 61.0 Duration: 27.0.
+09/25/2012 22:50:23 - Warning: Begin Limit Warning - Measurement value of 20.223454 at frame 63.0 exceeds warning threshold of 20.00.
+
+09/25/2012 22:50:30 - Min Score (DMOS) : 0.140
+09/25/2012 22:50:30 - Max Score  (DMOS) : 36.079
+09/25/2012 22:50:30 - Overall Score (DMOS) : 23.198
+
+09/25/2012 22:50:30 - ********************************************************************************
+09/25/2012 22:50:30 - PQA Measurement Log Stopped: Tuesday, September 25, 2012 10:50:30 PM
+09/25/2012 22:50:30 - ********************************************************************************
