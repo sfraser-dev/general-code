@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use feature qw(say);
 
+require mymodules::run1;
+
 # "perl in 2.5 hours"
 # perl is context-sensitive, every expression is evaluated  either in scalar or kist context
 # variables are either $scalars (string, number, reference or undef)
@@ -203,7 +205,7 @@ while(my $line = <$fh_in>) {
 }
 my $fout= "output.txt";
 open (my $fh_out, ">", $fout) || die "Couldn't open '".$fout."' for reading because: ".$!;
-print $fh_out "Houston, we have a problem";
+say $fh_out "Houston, we have a problem";
 close $fh_in;
 close $fh_out;
 say"";
@@ -261,4 +263,13 @@ say $string;
 say $1;
 say $2;
 say $3;
+say"";
+
+# Modules (can be included in another perl file) and packages
+# Modules and pacakes are completely separate and distinct, a very stupid feature of perl!
+# Most programmers obey the following 2 laws:
+# 1. A Perl script (.pl file) must always contain exactly zero package declarations
+# 2. A Perl module (.pm file) must always contain exactly one package declaration, corresponding exactly
+#    to its name and location. E.g. module mymodules/run1.pm must begin with package mymodules::run1;
+say mymodules::run1::zombify("i want brains");
 
