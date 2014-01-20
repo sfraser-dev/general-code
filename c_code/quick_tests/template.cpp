@@ -18,7 +18,7 @@ int calc::add(int x, int y){
     return x+y;
 }
 
-// Template class (based on the simple concrete class)
+// Template class (based on the simple "concrete" class)
 template <class A_Type> class tcalc {
     public:
         A_Type mult(A_Type x, A_Type y);
@@ -37,9 +37,11 @@ int main(){
     float a=2.5;
     float b=3;
 
+    // Instantiate an object of class calc.
     calc myCalc;
     cout << "x=" << x << " y=" << y << endl << "x + y = " << myCalc.add(x,y) << endl << "x * y = " << myCalc.mult(x,y) << endl;
 
+    // Instantiate an object of class tcalc. An instantiated object from a template class is called a specialisation.
     tcalc<float>  myCalcFlt;
     cout << "a=" << a << " b=" << b << endl << "a + b = " << myCalcFlt.add(a,b) << endl << "a * b = " << myCalcFlt.mult(a,b) << endl;
 
