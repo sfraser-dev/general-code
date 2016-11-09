@@ -1,5 +1,5 @@
 // stdafx.cpp : source file that includes just the standard includes
-// CStringManipulate_Win32ConsoleApp.pch will be the pre-compiled header
+// string_manipulate.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="CStringManipulate_Win32ConsoleApp"
-	ProjectGUID="{58396730-71F9-475C-9A20-6F931F159518}"
-	RootNamespace="CStringManipulate_Win32ConsoleApp"
+	Name="string_manipulate"
+	ProjectGUID="{87FB781C-CF62-4D4B-9D19-2255163CA659}"
+	RootNamespace="string_manipulate"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -171,10 +171,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CStringManipulate_Win32ConsoleApp.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -193,6 +189,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\string_manipulate.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter

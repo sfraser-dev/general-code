@@ -1,4 +1,4 @@
-// CStringManipulate_Win32ConsoleApp.cpp : Defines the entry point for the console application.
+// string_manipulate.cpp : Defines the entry point for the console application.
 //
 // Win32 console application
 
@@ -48,4 +48,3 @@ int _tmain(int argc, _TCHAR* argv[])
 	system("pause");
 	return 0;
 }
-
