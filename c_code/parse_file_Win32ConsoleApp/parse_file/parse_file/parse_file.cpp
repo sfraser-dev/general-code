@@ -8,10 +8,21 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <atlstr.h>
 using namespace std;
+
+typedef struct _LWProfileDef {
+	string name;				// todo:	change to CStrings!
+	string videoEncoding;		// todo:	change to CStrings!
+	string audioEncoding;		// todo:	change to CStrings!
+} LWProfileDef_t;
 
 bool readEncodingProfiles() {
 	ifstream fin;
+	LWProfileDef_t arrProfiles[20];
+	string arrTokens[3];
+
+	// open the encoding-profiles file
 	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles.dat");
 	
 	if (!fin.good()) 
@@ -19,6 +30,7 @@ bool readEncodingProfiles() {
 
 	// read each line from the encoding-profiles file
 	string line;
+	unsigned short it_line = 0;
 	while (getline (fin, line)){
 		// ignore empty lines
 		if (line.length() == 0){
@@ -28,15 +40,27 @@ bool readEncodingProfiles() {
 		// get each token (delimited by commas) from each line
 		istringstream iss(line);
 		string token;
+		unsigned short it_token = 0;
 		while (getline(iss, token, ',')){
 			// skip leading white space
 			iss >> ws;
-			cout << token << endl;
+			// todo:	check that no comments or unknown characters!
+			//			only checking for empty lines right now
+			arrTokens[it_token++] = token;
 		}
+		arrProfiles[it_line].name	= arrTokens[0];
+		arrProfiles[it_line].videoEncoding = arrTokens[1];
+		arrProfiles[it_line].audioEncoding = arrTokens[2];
+		cout << arrProfiles[0].name << endl;
+		cout << arrProfiles[0].videoEncoding << endl;
+		cout << arrProfiles[0].audioEncoding << endl;
 		cout << endl;
-	}
 
+		it_line++;
+	}
+	// close the encoding-profiles file
 	fin.close();
+
 	return true;
 }
 
