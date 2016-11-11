@@ -1,10 +1,13 @@
 // parse_file.cpp : Defines the entry point for the console application.
 //
+// http://cs.dvc.edu/HowTo_Cparse.html ("c++ parse file")
 
 #include "stdafx.h"
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <algorithm>
 using namespace std;
 
 const int MAX_CHARS_PER_LINE = 2048;
@@ -37,10 +40,26 @@ bool getNextLine() {
 				if (!token[n]) break; // no more tokens
 			}
 		}
+		else {
+			continue; // ignore blank lines
+		}
 
 		// process (print) the tokens
-		for (int i = 0; i < n; i++) // n = #of tokens
+		for (int i = 0; i < n; i++){	// n = #of tokens
 			cout << "Token[" << i << "] = " << token[i] << endl;
+			string tokenStart = "";
+			// grab the first seven characters of the token
+			tokenStart += token[i][0];
+			tokenStart += token[i][1];
+			tokenStart += token[i][2];
+			tokenStart += token[i][3];
+			tokenStart += token[i][4];
+			tokenStart += token[i][5];
+			tokenStart += token[i][6];
+			// remove blank spaces
+			tokenStart.erase(remove_if(tokenStart.begin(), tokenStart.end(), isspace), tokenStart.end());
+			cout << "str: " << tokenStart << endl;
+		}
 		cout << endl;
 	}
 
