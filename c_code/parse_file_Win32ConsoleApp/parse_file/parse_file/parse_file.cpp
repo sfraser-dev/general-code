@@ -10,7 +10,6 @@
 #include <sstream>
 #include <atlstr.h>
 #include <vector>
-//using namespace std;
 
 typedef struct _LWProfileDef {
 	CString name;		
@@ -20,7 +19,6 @@ typedef struct _LWProfileDef {
 
 bool readEncodingProfiles() {
 	std::ifstream fin;
-	LWProfileDef_t arrProfiles[20];
 
 	// open the encoding-profiles file
 	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles.dat");
@@ -30,8 +28,6 @@ bool readEncodingProfiles() {
 
 	// read each line from the encoding-profiles file
 	std::string line;
-	unsigned short it_line = 0;
-	LWProfileDef_t tempProfile;
 	std::vector<LWProfileDef_t> vecProfiles;
 	while (std::getline (fin, line)){
 		// ignore empty lines
@@ -52,23 +48,13 @@ bool readEncodingProfiles() {
 			arrTokens[it_token++] = token;
 		}
 		
-		// convert the std:strings to CStrings
-		arrProfiles[it_line].name	= arrTokens[0].c_str();
-		arrProfiles[it_line].videoEncoding = arrTokens[1].c_str();
-		arrProfiles[it_line].audioEncoding = arrTokens[2].c_str();
-
+		// store tokens in a ProfileDefinition structure (converting std:strings to CStrings)
+		LWProfileDef_t tempProfile;
 		tempProfile.name = arrTokens[0].c_str();
 		tempProfile.videoEncoding = arrTokens[1].c_str();
 		tempProfile.audioEncoding = arrTokens[2].c_str();
-
+		// store the ProfileDefinition structures in a vector
 		vecProfiles.push_back(tempProfile);
-
-		std::wcout << "array: " << arrProfiles[it_line].name.GetString() << std::endl;
-		std::wcout << "array: " << arrProfiles[it_line].videoEncoding.GetString() << std::endl;
-		std::wcout << "array: " << arrProfiles[it_line].audioEncoding.GetString() << std::endl;
-		std::wcout << std::endl;
-
-		it_line++;
 	}
 	// close the encoding-profiles file
 	fin.close();
@@ -81,6 +67,8 @@ bool readEncodingProfiles() {
 		std::wcout << std::endl;
 	}
 
+	// done
+	vecProfiles.clear();
 	return true;
 }
 
