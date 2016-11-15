@@ -9,7 +9,8 @@
 #include <string>
 #include <sstream>
 #include <atlstr.h>
-using namespace std;
+#include <vector>
+//using namespace std;
 
 typedef struct _LWProfileDef {
 	CString name;		
@@ -18,9 +19,8 @@ typedef struct _LWProfileDef {
 } LWProfileDef_t;
 
 bool readEncodingProfiles() {
-	ifstream fin;
+	std::ifstream fin;
 	LWProfileDef_t arrProfiles[20];
-	string arrTokens[3];
 
 	// open the encoding-profiles file
 	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles.dat");
@@ -29,21 +29,24 @@ bool readEncodingProfiles() {
 		return false; // exit if file not found
 
 	// read each line from the encoding-profiles file
-	string line;
+	std::string line;
 	unsigned short it_line = 0;
-	while (getline (fin, line)){
+	LWProfileDef_t tempProfile;
+	std::vector<LWProfileDef_t> vecProfiles;
+	while (std::getline (fin, line)){
 		// ignore empty lines
 		if (line.length() == 0){
 			continue;
 		}
 
 		// get each token (delimited by commas) from each line
-		istringstream iss(line);
-		string token;
+		std::istringstream iss(line);
+		std::string token;
+		std::string arrTokens[3];
 		unsigned short it_token = 0;
 		while (getline(iss, token, ',')){
 			// skip leading white space
-			iss >> ws;
+			iss >> std::ws;
 			// todo:	check that no comments or unknown characters!
 			//			only checking for empty lines right now
 			arrTokens[it_token++] = token;
@@ -54,16 +57,30 @@ bool readEncodingProfiles() {
 		arrProfiles[it_line].videoEncoding = arrTokens[1].c_str();
 		arrProfiles[it_line].audioEncoding = arrTokens[2].c_str();
 
-		wcout << arrProfiles[0].name.GetString() << endl;
-		wcout << arrProfiles[0].videoEncoding.GetString() << endl;
-		wcout << arrProfiles[0].audioEncoding.GetString() << endl;
-		wcout << endl;
+		tempProfile.name = arrTokens[0].c_str();
+		tempProfile.videoEncoding = arrTokens[1].c_str();
+		tempProfile.audioEncoding = arrTokens[2].c_str();
+
+		vecProfiles.push_back(tempProfile);
+
+		std::wcout << "array: " << arrProfiles[it_line].name.GetString() << std::endl;
+		std::wcout << "array: " << arrProfiles[it_line].videoEncoding.GetString() << std::endl;
+		std::wcout << "array: " << arrProfiles[it_line].audioEncoding.GetString() << std::endl;
+		std::wcout << std::endl;
 
 		it_line++;
 	}
 	// close the encoding-profiles file
 	fin.close();
 	
+	std::cout << "Printing the vector: " << std::endl;
+	for (int i=0; i<vecProfiles.size(); i++){
+		std::wcout << vecProfiles[i].name.GetString() << std::endl;
+		std::wcout << vecProfiles[i].videoEncoding.GetString() << std::endl;
+		std::wcout << vecProfiles[i].audioEncoding.GetString() << std::endl;
+		std::wcout << std::endl;
+	}
+
 	return true;
 }
 
