@@ -26,20 +26,22 @@ bool readEncodingProfiles() {
 	if (!fin.good()) 
 		return false; // exit if file not found
 
-	// read each line from the encoding-profiles file
+	// read the encoding-profiles file
 	std::string line;
 	std::vector<LWProfileDef_t> vecProfiles;
+	// grabbing each line from the encoding-profiles file
 	while (std::getline (fin, line)){
 		// ignore empty lines
 		if (line.length() == 0){
 			continue;
 		}
 
-		// get each token (delimited by commas) from each line
+		// from each line, get the three tokens (1) name (2) videoEncoding (3) audioEncoding (which are delimited by commas)
 		std::istringstream iss(line);
 		std::string token;
 		std::string arrTokens[3];
 		unsigned short it_token = 0;
+		// parse each line
 		while (getline(iss, token, ',')){
 			// skip leading white space
 			iss >> std::ws;
@@ -48,7 +50,7 @@ bool readEncodingProfiles() {
 			arrTokens[it_token++] = token;
 		}
 		
-		// store tokens in a ProfileDefinition structure (converting std:strings to CStrings)
+		// store tokens in a temporary ProfileDefinition structure (converting std:strings to CStrings)
 		LWProfileDef_t tempProfile;
 		tempProfile.name = arrTokens[0].c_str();
 		tempProfile.videoEncoding = arrTokens[1].c_str();
@@ -59,7 +61,7 @@ bool readEncodingProfiles() {
 	// close the encoding-profiles file
 	fin.close();
 	
-	std::cout << "Printing the vector: " << std::endl;
+	// test by printing to screen
 	for (int i=0; i<vecProfiles.size(); i++){
 		std::wcout << vecProfiles[i].name.GetString() << std::endl;
 		std::wcout << vecProfiles[i].videoEncoding.GetString() << std::endl;
