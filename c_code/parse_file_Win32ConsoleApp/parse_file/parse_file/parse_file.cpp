@@ -12,9 +12,9 @@
 using namespace std;
 
 typedef struct _LWProfileDef {
-	string name;				// todo:	change to CStrings!
-	string videoEncoding;		// todo:	change to CStrings!
-	string audioEncoding;		// todo:	change to CStrings!
+	CString name;		
+	CString videoEncoding;
+	CString audioEncoding;
 } LWProfileDef_t;
 
 bool readEncodingProfiles() {
@@ -48,19 +48,22 @@ bool readEncodingProfiles() {
 			//			only checking for empty lines right now
 			arrTokens[it_token++] = token;
 		}
-		arrProfiles[it_line].name	= arrTokens[0];
-		arrProfiles[it_line].videoEncoding = arrTokens[1];
-		arrProfiles[it_line].audioEncoding = arrTokens[2];
-		cout << arrProfiles[0].name << endl;
-		cout << arrProfiles[0].videoEncoding << endl;
-		cout << arrProfiles[0].audioEncoding << endl;
-		cout << endl;
+		
+		// convert the std:strings to CStrings
+		arrProfiles[it_line].name	= arrTokens[0].c_str();
+		arrProfiles[it_line].videoEncoding = arrTokens[1].c_str();
+		arrProfiles[it_line].audioEncoding = arrTokens[2].c_str();
+
+		wcout << arrProfiles[0].name.GetString() << endl;
+		wcout << arrProfiles[0].videoEncoding.GetString() << endl;
+		wcout << arrProfiles[0].audioEncoding.GetString() << endl;
+		wcout << endl;
 
 		it_line++;
 	}
 	// close the encoding-profiles file
 	fin.close();
-
+	
 	return true;
 }
 
@@ -71,4 +74,3 @@ int _tmain(int argc, _TCHAR* argv[])
 	system("pause");
 	return 0;
 }
-
