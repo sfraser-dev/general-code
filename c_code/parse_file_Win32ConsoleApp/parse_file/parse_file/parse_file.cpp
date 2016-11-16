@@ -10,6 +10,10 @@
 #include <sstream>
 #include <atlstr.h>
 #include <vector>
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+
 
 typedef struct _LWProfileDef {
 	CString name;		
@@ -17,14 +21,49 @@ typedef struct _LWProfileDef {
 	CString audioEncoding;
 } LWProfileDef_t;
 
+void split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss;
+    ss.str(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+	split(s, delim, elems);
+    return elems;
+}
+
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
+}
+
 bool readEncodingProfiles() {
-	std::ifstream fin;
 
 	// open the encoding-profiles file
-	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles2.dat");
+	std::ifstream fin;
+	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles.dat");
 	
+	// exit if file not found
 	if (!fin.good()) 
-		return false; // exit if file not found
+		return false; 
 
 	// read the encoding-profiles file
 	std::string line;
@@ -32,29 +71,29 @@ bool readEncodingProfiles() {
 	// grabbing each line from the encoding-profiles file
 	while (std::getline (fin, line)){
 		// ignore empty lines
-		if (line.length() == 0){
+		if (line.length() == 0)
 			continue;
-		}
+		// remove comments
+		std::vector<std::string> vectorCommentSplit = split(line, '#');
+		std::string lineNoComment = vectorCommentSplit[0];
+		// ignore lines that are just comments
+		if (lineNoComment.length() == 0)
+			continue;
 
-		// from each line, get the three tokens (1) name (2) videoEncoding (3) audioEncoding (which are delimited by commas)
-		std::istringstream iss(line);
-		std::string token;
-		std::string arrTokens[3];
-		unsigned short it_token = 0;
-		// parse each line
-		while (getline(iss, token, ',')){
-			// skip leading white space
-			iss >> std::ws;
-			// todo:	check that no comments or unknown characters!
-			//			only checking for empty lines right now
-			arrTokens[it_token++] = token;
-		}
+		// from each line, get the three tokens: (1) name, (2) videoEncoding and (3) audioEncoding (delimited by commas)
+		std::vector<std::string> vectorCommaSplit = split(line, ',');
+		// expecting three comma separated strings (1) "name=...", (2) "video=..." and (3) "audio=..."
+		if (vectorCommaSplit.size() != 3)	
+			return false;
 		
-		// store tokens in a temporary ProfileDefinition structure (converting std:strings to CStrings)
+		// store tokens in a temporary ProfileDefinition structure
+		// convert std:strings to CStrings
+		// trim empty space at start and end of string
 		LWProfileDef_t tempProfile;
-		tempProfile.name = arrTokens[0].c_str();
-		tempProfile.videoEncoding = arrTokens[1].c_str();
-		tempProfile.audioEncoding = arrTokens[2].c_str();
+		tempProfile.name = (trim(vectorCommaSplit[0])).c_str();
+		tempProfile.videoEncoding = (trim(vectorCommaSplit[1])).c_str();
+		tempProfile.audioEncoding = (trim(vectorCommaSplit[2])).c_str();
+		
 		// store the ProfileDefinition structures in a vector
 		vecProfiles.push_back(tempProfile);
 	}
@@ -65,7 +104,6 @@ bool readEncodingProfiles() {
 	LWProfileDef_t *arr7440ProfileDef = new LWProfileDef_t[vecProfiles.size()];
 	// test by printing to screen
 	for (int i=0; i<vecProfiles.size(); i++){
-
 		arr7440ProfileDef[i] = vecProfiles[i];
 		std::wcout << arr7440ProfileDef[i].name.GetString() << std::endl;
 		std::wcout << arr7440ProfileDef[i].videoEncoding.GetString() << std::endl;
