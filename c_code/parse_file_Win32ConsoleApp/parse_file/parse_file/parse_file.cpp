@@ -21,6 +21,7 @@ typedef struct _LWProfileDef {
 	CString audioEncoding;
 } LWProfileDef_t;
 
+// split line at delimiter
 void split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss;
     ss.str(s);
@@ -30,6 +31,7 @@ void split(const std::string &s, char delim, std::vector<std::string> &elems) {
     }
 }
 
+// split line at delimiter
 std::vector<std::string> split(const std::string &s, char delim) {
     std::vector<std::string> elems;
 	split(s, delim, elems);
@@ -88,7 +90,7 @@ bool readEncodingProfiles() {
 		
 		// store tokens in a temporary ProfileDefinition structure
 		// convert std:strings to CStrings
-		// trim empty space at start and end of string
+		// trim empty space from the start and end of the strings
 		LWProfileDef_t tempProfile;
 		tempProfile.name = (trim(vectorCommaSplit[0])).c_str();
 		tempProfile.videoEncoding = (trim(vectorCommaSplit[1])).c_str();
