@@ -21,7 +21,7 @@ bool readEncodingProfiles() {
 	std::ifstream fin;
 
 	// open the encoding-profiles file
-	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles.dat");
+	fin.open("F:\\dev\\general\\c_code\\parse_file_Win32ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles2.dat");
 	
 	if (!fin.good()) 
 		return false; // exit if file not found
@@ -61,16 +61,22 @@ bool readEncodingProfiles() {
 	// close the encoding-profiles file
 	fin.close();
 	
+	// store the structures in an array (not a vector) to fit in easier with the current DVR code
+	LWProfileDef_t *arr7440ProfileDef = new LWProfileDef_t[vecProfiles.size()];
 	// test by printing to screen
 	for (int i=0; i<vecProfiles.size(); i++){
-		std::wcout << vecProfiles[i].name.GetString() << std::endl;
-		std::wcout << vecProfiles[i].videoEncoding.GetString() << std::endl;
-		std::wcout << vecProfiles[i].audioEncoding.GetString() << std::endl;
+
+		arr7440ProfileDef[i] = vecProfiles[i];
+		std::wcout << arr7440ProfileDef[i].name.GetString() << std::endl;
+		std::wcout << arr7440ProfileDef[i].videoEncoding.GetString() << std::endl;
+		std::wcout << arr7440ProfileDef[i].audioEncoding.GetString() << std::endl;
 		std::wcout << std::endl;
 	}
 
-	// done
+	// tidy up
 	vecProfiles.clear();
+	delete [] arr7440ProfileDef;
+
 	return true;
 }
 
