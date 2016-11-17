@@ -32,18 +32,23 @@ namespace parse_file
             }
 
             StringCollection lstProfile = new StringCollection();
-            string [] tokens;
+            string [] commaTokens;
+            string[] equalTokens;
+            string profileName;
             foreach (string selectedLine in collSelectedLinesFromFile)
             {
                 // split each selected line into tokens (delimited by commas)
-                tokens = selectedLine.Split(',');
-                foreach (string token in tokens)
+                commaTokens = selectedLine.Split(',');
+                foreach (string commaToken in commaTokens)
                 {
                     // find tokens that start with "name"
-                    if (token.StartsWith("name"))
+                    if (commaToken.StartsWith("name"))
                     {
-                        // add the trimmed tokens (starting with "name") to the StringCollection lstProfile
-                        lstProfile.Add(token.Trim());
+                        // remove "name=" from the start of the comma token
+                        equalTokens = commaToken.Split('=');
+                        profileName = equalTokens[1];
+                        // add the trimmed profile name to the StringCollection lstProfile
+                        lstProfile.Add(profileName.Trim());
                     }
                 }
             }
