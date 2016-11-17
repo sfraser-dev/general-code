@@ -82,7 +82,7 @@ bool readEncodingProfiles() {
 		if (lineNoComment.length() == 0)
 			continue;
 
-		// from each line, get the three tokens: (1) name, (2) videoEncoding and (3) audioEncoding (delimited by commas)
+		// from each line, get the three tokens delimited by commas
 		std::vector<std::string> vectorCommaSplit = split(line, ',');
 		// expecting three comma separated strings (1) "name=...", (2) "video=..." and (3) "audio=..."
 		if (vectorCommaSplit.size() != 3)	
