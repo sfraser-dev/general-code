@@ -13,11 +13,10 @@ namespace parse_file
         static void Main(string[] args)
         {
             // open the file
-            StreamReader fileReader = File.OpenText("F:\\dev\\general\\c_sharp\\parse_file_ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles2.dat");
-            //StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
+            StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
             string lineFromFile;
-            string [] arrLinesWithoutComments;
-            StringCollection collSelectedLinesFromFile = new StringCollection();
+            string [] commentSplit;
+            StringCollection noComments = new StringCollection();
             // read each line
             while ((lineFromFile = fileReader.ReadLine()) != null)
             {
@@ -25,37 +24,45 @@ namespace parse_file
                 if (lineFromFile.Length == 0)
                     continue;
                 // remove comments
-                arrLinesWithoutComments = lineFromFile.Split('#');
+                commentSplit = lineFromFile.Split('#');
                 // ignore lines that are just comments
-                if (arrLinesWithoutComments[0].Length == 0)
+                if (commentSplit[0].Length == 0)
                     continue;
-                collSelectedLinesFromFile.Add(arrLinesWithoutComments[0]);
+                // ignore lines that don't specifically start with "name"
+                if (!((commentSplit[0].Trim()).StartsWith("name")))
+                    continue;
+                noComments.Add(commentSplit[0]);
             }
 
             StringCollection lstProfile = new StringCollection();
             string [] commaTokens;
             string[] equalTokens;
             string profileName;
-            foreach (string selectedLine in collSelectedLinesFromFile)
+            foreach (string noCommentLine in noComments)
             {
-                // split each selected line into tokens (delimited by commas)
-                commaTokens = selectedLine.Split(',');
+                // split each line into tokens (delimited by commas)
+                commaTokens = noCommentLine.Split(',');
+                if (commaTokens.Count() != 3)
+                {
+                    // todo: handle error
+                }
                 foreach (string commaToken in commaTokens)
                 {
-                    // remove white space at start and end of each line
+                    // remove white space from start and end of each token
                     commaToken.Trim();
-                    // find tokens that start with "name"
+                    // look for tokens that start with "name" (don't need the "video" and "audio" tokens)
                     if (commaToken.StartsWith("name"))
                     {
-                        // remove "name" from the start of the comma token
+                        // grab only the profile-name
                         equalTokens = commaToken.Split('=');
                         profileName = equalTokens[1];
-                        // add the trimmed profile name to the StringCollection lstProfile
+                        // add the profile-name to the "old" StringCollection lstProfile (minimise changes for now)
                         lstProfile.Add(profileName.Trim());
                     }
                 }
             }
 
+            // debug
             foreach (string s in lstProfile)
             {
                 System.Console.WriteLine(s);

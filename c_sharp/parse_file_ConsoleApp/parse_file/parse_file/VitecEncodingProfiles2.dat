@@ -1,13 +1,14 @@
-# HD-1080 profiles:
- name=Default_HD_1080p_25fps_5Mbps_H264, video={size=1920x1080; fps=25; bitrate=5M}, 				audio={DEFAULT}
-name=HD_1080_25fps_5Mbps_H264, 		video={size=1920x1080; fps=25; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
-name=HD_1080_29.97fps_5Mbps_H264, 	video={size=1920x1080; fps=29.97; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
-    name=HD_1080_30fps_5Mbps_H264, 		video={size=1920x1080; fps=30; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
 
-    # HD-1080i profiles:
-name=HD_1080i_50fps_5Mbps_H264,		video={size=1920x1080; fields=2; fps=50; bitrate=5M; goplen=1.0},	audio={DEFAULT}
+# HD-1080 profiles:
+name=Default_HD_1080p_25fps_5Mbps_H264, video={size=1920x1080; fps=25; bitrate=5M}, 				audio={DEFAULT}
+name=HD_1080_25fps_5Mbps_H264, 		video={size=1920x1080; fps=25; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
+    name=HD_1080_29.97fps_5Mbps_H264, 	video={size=1920x1080; fps=29.97; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
+name=HD_1080_30fps_5Mbps_H264, 		video={size=1920x1080; fps=30; bitrate=5M; goplen=1.0}, 		audio={DEFAULT}
+
+# HD-1080i profiles:
+  name=HD_1080i_50fps_5Mbps_H264,		video={size=1920x1080; fields=2; fps=50; bitrate=5M; goplen=1.0},	audio={DEFAULT}
 name=HD_1080i_59.94fps_5Mbps_H264,	video={size=1920x1080; fields=2; fps=59.94; bitrate=5M; goplen=1.0},	audio={DEFAULT}
-name=HD_1080i_60fps_5Mbps_H264,		video={size=1920x1080; fields=2; fps=60; bitrate=5M; goplen=1.0},	audio={DEFAULT}
+ name=HD_1080i_60fps_5Mbps_H264,		video={size=1920x1080; fields=2; fps=60; bitrate=5M; goplen=1.0},	    audio={DEFAULT}
 
 # HD-720 profiles:
 name=HD_720_50fps_5Mbps_H264,		video={size=1280x720; fps=50; bitrate=5M; goplen=1.0},			audio={DEFAULT}
@@ -19,5 +20,9 @@ name=PAL_720x576_25fps_2Mbps_H264,	video={size=720x576; fps=25; bitrate=2M; gopl
 name=PAL_720x576_25fps_3Mbps_H264,	video={size=720x576; fps=25; bitrate=3M; goplen=1/3},			audio={DEFAULT}
 name=PAL_720x576_25fps_4Mbps_H264,	video={size=720x576; fps=25; bitrate=4M; goplen=1/3},			audio={DEFAULT}
 
+this line is an error
+        this line is an error too
+
 # SD NTSC profiles: (NOTE: video size is fixed at 720x480, frame-rate fixed at 29.97)
 name=NTSC_720x480_29.97fps_3Mbps_H264,	video={size=720x480; fps=29.97; bitrate=3M; goplen=1/3},		audio={DEFAULT}
+
