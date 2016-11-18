@@ -13,7 +13,8 @@ namespace parse_file
         static void Main(string[] args)
         {
             // open the file
-            StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
+            StreamReader fileReader = File.OpenText("F:\\dev\\general\\c_sharp\\parse_file_ConsoleApp\\parse_file\\parse_file\\VitecEncodingProfiles2.dat");
+            //StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
             string lineFromFile;
             string [] arrLinesWithoutComments;
             StringCollection collSelectedLinesFromFile = new StringCollection();
@@ -41,10 +42,12 @@ namespace parse_file
                 commaTokens = selectedLine.Split(',');
                 foreach (string commaToken in commaTokens)
                 {
+                    // remove white space at start and end of each line
+                    commaToken.Trim();
                     // find tokens that start with "name"
                     if (commaToken.StartsWith("name"))
                     {
-                        // remove "name=" from the start of the comma token
+                        // remove "name" from the start of the comma token
                         equalTokens = commaToken.Split('=');
                         profileName = equalTokens[1];
                         // add the trimmed profile name to the StringCollection lstProfile
