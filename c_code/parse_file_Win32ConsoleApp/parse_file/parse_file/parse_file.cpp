@@ -33,7 +33,7 @@ bool readEncodingProfiles() {
 
 	// open the encoding-profiles file
 	std::ifstream fin;
-	fin.open("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
+	fin.open("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.dat");
 	
 	// exit if file not found
 	if (!fin.good()) 

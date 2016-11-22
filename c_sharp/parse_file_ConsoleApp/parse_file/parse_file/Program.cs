@@ -13,7 +13,7 @@ namespace parse_file
         static void Main(string[] args)
         {
             // open the file
-            StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.txt");
+            StreamReader fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.dat");
             string lineFromFile;
             string [] commentSplit;
             StringCollection noComments = new StringCollection();
