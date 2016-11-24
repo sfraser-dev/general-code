@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 
+#include <afx.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,6 +16,8 @@
 #include <functional> 
 #include <cctype>
 
+#define ASSERT(f)          DEBUG_ONLY((void) ((f) || !::AfxAssertFailedLine(THIS_FILE, __LINE__) || (AfxDebugBreak(), 0)))
+#define LW_ENABLE_DEBUG_TRACE_NOTIFY
 
 typedef struct _LWProfileDef {
 	CString name;		
@@ -28,6 +32,8 @@ static std::vector<std::string> StringSplit(const std::string &s, char delim);
 static inline std::string &StringTrimLeft(std::string &s);
 static inline std::string &StringTrimRight(std::string &s);
 static inline std::string &StringTrim(std::string &s);
+// convert string to upper-case
+static inline std::string ToUpper (const std::string& strIn);
 
 bool readEncodingProfiles() {
 
@@ -36,8 +42,13 @@ bool readEncodingProfiles() {
 	fin.open("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.dat");
 	
 	// exit if file not found
-	if (!fin.good()) 
+	if (!fin.good()) {
+#ifdef LW_ENABLE_DEBUG_TRACE_NOTIFY
+		TRACE("Error: cannot access the Vitec Encoder Profiles file");
+#endif
+		ASSERT(FALSE);
 		return false; 
+	}
 
 	// read the encoding-profiles file
 	std::string lineFromFile;
@@ -55,7 +66,7 @@ bool readEncodingProfiles() {
 		if (commentSplit[0].length() == 0)
 			continue;
 		// ignore lines that don't specifically start with "name"
-		if (StringTrim(commentSplit[0]).find("name") != 0)
+		if (ToUpper((StringTrim(commentSplit[0]))).find("NAME") != 0)
 			continue;
 		noComments.push_back(commentSplit[0]);
 	}
@@ -67,7 +78,11 @@ bool readEncodingProfiles() {
 		// split each line into tokens (delimited by commas)
 		commaTokens = StringSplit(noComments[i],',');
 		if (commaTokens.size() != 3) {
-			// todo: handle error
+#ifdef LW_ENABLE_DEBUG_TRACE_NOTIFY
+			TRACE("Error: line found in Vitec Encoder Profiles file without three comma separated tokens");
+#endif
+			ASSERT(FALSE);
+			continue;
 		}
 		// remove white space from start and end of each token and store them in a temporary structure
 		LWProfileDef_t tempProfile;
@@ -80,22 +95,33 @@ bool readEncodingProfiles() {
 	// close the encoding-profiles file
 	fin.close();
 
-	// copy the vector structs to the "old" array (minimise changes for now)
-	LWProfileDef_t *arr7440ProfileDef = new LWProfileDef_t[encodingProfiles.size()];
-	for (int i=0; i<encodingProfiles.size(); i++)
-		arr7440ProfileDef[i] = encodingProfiles[i];
+	if (encodingProfiles.size() != 0){
+		// copy the vector structs to the "old" array (minimise changes for now)
+		LWProfileDef_t *arr7440ProfileDef = new LWProfileDef_t[encodingProfiles.size()];
+		for (int i=0; i<encodingProfiles.size(); i++)
+			arr7440ProfileDef[i] = encodingProfiles[i];
 
-	// debug
-	for (int i=0; i<encodingProfiles.size(); i++){
-		std::wcout << encodingProfiles[i].name.GetString() << std::endl;
-		std::wcout << encodingProfiles[i].videoEncoding.GetString() << std::endl;
-		std::wcout << encodingProfiles[i].audioEncoding.GetString() << std::endl;
-		std::wcout << std::endl;
+		// debug
+		for (int i=0; i<encodingProfiles.size(); i++){
+			std::wcout << encodingProfiles[i].name.GetString() << std::endl;
+			std::wcout << encodingProfiles[i].videoEncoding.GetString() << std::endl;
+			std::wcout << encodingProfiles[i].audioEncoding.GetString() << std::endl;
+			std::wcout << std::endl;
+		}
+
+		// tidy up
+		delete [] arr7440ProfileDef;
+		arr7440ProfileDef = NULL;
+	}
+	else {
+#ifdef LW_ENABLE_DEBUG_TRACE_NOTIFY
+		TRACE("Error: No profiles have been read from the Vitec Encoder Profiles file");
+#endif
+		ASSERT(FALSE);
 	}
 
 	// tidy up
 	encodingProfiles.clear();
-	delete [] arr7440ProfileDef;
 
 	return true;
 }
@@ -142,4 +168,12 @@ static inline std::string &StringTrimRight(std::string &s) {
 // trim string from both ends
 static inline std::string &StringTrim(std::string &s) {
     return StringTrimLeft(StringTrimRight(s));
+}
+
+// string conversion to uppercase
+static inline std::string ToUpper (const std::string& strIn){
+	std::string tempStr(strIn);
+	//temp.resize(strIn.length());
+	std::transform(strIn.begin(), strIn.end(), tempStr.begin(), ::toupper);
+	return tempStr;
 }
