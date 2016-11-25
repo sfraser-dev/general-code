@@ -24,7 +24,7 @@ namespace parse_file
             StringCollection noComments = new StringCollection();
             StreamReader fileReader = null;
 
-            // open the file
+            // open the encoding-profiles file
             try
             {
                 fileReader = File.OpenText("C:\\ProgramData\\VisualSoft\\VisualWorks\\DVR\\QualityProfiles\\H264\\Hardware\\VitecEncodingProfiles.dat");
@@ -39,7 +39,7 @@ namespace parse_file
             // read each line
             while ((lineFromFile = fileReader.ReadLine()) != null)
             {
-                // ignore blank lines
+                // ignore empty lines
                 if (lineFromFile.Length == 0)
                     continue;
                 // remove comments
@@ -47,7 +47,7 @@ namespace parse_file
                 // ignore lines that are just comments
                 if (commentSplit[0].Length == 0)
                     continue;
-                // ignore lines that don't specifically start with "name"
+                // ignore lines that don't specifically start with "name" (where "name" is case insensitive)
                 if (!((commentSplit[0].Trim()).StartsWith("name", true, null)))
                     continue;
                 noComments.Add(commentSplit[0]);
@@ -90,7 +90,7 @@ namespace parse_file
                 }
             }
 
-            // close the file
+            // close the encoding-profiles file
             fileReader.Dispose();
             fileReader = null;
 

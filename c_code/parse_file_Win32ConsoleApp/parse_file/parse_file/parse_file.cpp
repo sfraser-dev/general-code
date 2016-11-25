@@ -65,7 +65,7 @@ bool readEncodingProfiles() {
 		// ignore lines that are just comments
 		if (commentSplit[0].length() == 0)
 			continue;
-		// ignore lines that don't specifically start with "name"
+		// ignore lines that don't specifically start with "name" (where "name" is case insensitive)
 		if (ToUpper((StringTrim(commentSplit[0]))).find("NAME") != 0)
 			continue;
 		noComments.push_back(commentSplit[0]);
@@ -96,7 +96,7 @@ bool readEncodingProfiles() {
 	fin.close();
 
 	if (encodingProfiles.size() != 0){
-		// copy the vector structs to the "old" array (minimise changes for now)
+		// copy the vector of structures to the "old" array (minimise changes for now)
 		LWProfileDef_t *arr7440ProfileDef = new LWProfileDef_t[encodingProfiles.size()];
 		for (int i=0; i<encodingProfiles.size(); i++)
 			arr7440ProfileDef[i] = encodingProfiles[i];
